@@ -5,8 +5,9 @@ import pickle
 import pandas as pd
 
 
-POI_FILENAME = "data/poi-paris.pkl"
-parismap = mpimg.imread('data/paris-48.806-2.23--48.916-2.48.jpg')
+POI_FILENAME = "tme1/data/poi-paris.pkl"
+parismap = mpimg.imread('tme1/data/paris-48.806-2.23--48.916-2.48.jpg')
+
 ## coordonnees GPS de la carte
 xmin, xmax = 2.23, 2.48  # coord_x min et max
 ymin, ymax = 48.806, 48.916  # coord_y min et max
@@ -20,7 +21,10 @@ class Density(object):
         pass
     def score(self,data):
         #A compléter : retourne la log-vraisemblance
-        pass
+        #data +=+  10**-10
+        #likelihood = likelihood +  10**-10 # add very small number to avoid log(0)
+        
+        return None
 
 class Histogramme(Density):
     def __init__(self,steps=10):
@@ -28,6 +32,7 @@ class Histogramme(Density):
         self.steps = steps
     def fit(self,x):
         #A compléter : apprend l'histogramme de la densité sur x
+        #for i in 
         pass
     def predict(self,x):
         #A compléter : retourne la densité associée à chaque point de x
@@ -91,15 +96,15 @@ def load_poi(typepoi,fn=POI_FILENAME):
     return data,note
     
 
-plt.ion()
+#plt.ion() # Commented out bc it closes figures automatically 
 # Liste des POIs : furniture_store, laundry, bakery, cafe, home_goods_store, clothing_store, atm, lodging, night_club, convenience_store, restaurant, bar
 # La fonction charge la localisation des POIs dans geo_mat et leur note.
 geo_mat, notes = load_poi("bar")
 
 # Affiche la carte de Paris
+plt.figure()
 show_img()
 # Affiche les POIs
 plt.scatter(geo_mat[:,0],geo_mat[:,1],alpha=0.8,s=3)
-
-
+plt.show()
 
