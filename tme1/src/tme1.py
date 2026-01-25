@@ -21,10 +21,10 @@ class Density(object):
         pass
     def score(self,data):
         #A compléter : retourne la log-vraisemblance
-        #data +=+  10**-10
-        #likelihood = likelihood +  10**-10 # add very small number to avoid log(0)
-        
-        return None
+        likelihoods = self.predict(data)
+        likelihoods += 1e-10 # add very small number to avoid log(0)
+        log_likelihood = np.sum(np.log(likelihoods))
+        return log_likelihood
 
 class Histogramme(Density):
     def __init__(self,steps=10):
@@ -32,10 +32,14 @@ class Histogramme(Density):
         self.steps = steps
     def fit(self,x):
         #A compléter : apprend l'histogramme de la densité sur x
-        #for i in 
+        self.hist, self.edges = np.histogramdd(x, bins=self.steps, density=True)
         pass
     def predict(self,x):
         #A compléter : retourne la densité associée à chaque point de x
+        def to_bin_indices(x, edges):
+
+            
+            return None
         pass
 
 class KernelDensity(Density):
@@ -99,6 +103,9 @@ def load_poi(typepoi,fn=POI_FILENAME):
 #plt.ion() # Commented out bc it closes figures automatically 
 # Liste des POIs : furniture_store, laundry, bakery, cafe, home_goods_store, clothing_store, atm, lodging, night_club, convenience_store, restaurant, bar
 # La fonction charge la localisation des POIs dans geo_mat et leur note.
+
+## Plot a different type of POI
+# Plot original one, bar
 geo_mat, notes = load_poi("bar")
 
 # Affiche la carte de Paris
@@ -106,5 +113,16 @@ plt.figure()
 show_img()
 # Affiche les POIs
 plt.scatter(geo_mat[:,0],geo_mat[:,1],alpha=0.8,s=3)
+
+# Plot laundry POI in red color
+geo_mat, notes = load_poi("restaurant")
+
+# Affiche la carte de Paris
+# Affiche les POIs
+plt.scatter(geo_mat[:,0],geo_mat[:,1],alpha=0.8,s=3, color='red')
+
+# Show plot
 plt.show()
+
+
 
