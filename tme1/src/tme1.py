@@ -36,11 +36,22 @@ class Histogramme(Density):
         pass
     def predict(self,x):
         #A compléter : retourne la densité associée à chaque point de x
-        def to_bin_indices(x, edges):
-
+        #def to_bin_indices(x, edges):
+        bin_indices = np.zeros(x.shape, dtype = int)
+        for i, edge in enumerate(self.edges):
+            bin_indices[:,i] = np.digitize(x[:, i], edge)   
+            #return bin_indices
+          
+		#bin_indices = to_bin_indices(x, self.edges)
+        density_x = np.zeros(x.shape[0])
+        for n in range(x.shape[0]):
+            # hist : n_bins x n_bins
+            # bin_indices : n_datapoints x n_dimensions
+            # x : n_datapoints x n_dimensions
+            print(bin_indices[n,:])
+        	density_x[n] = self.hist[bin_indices[n,:]]
             
-            return None
-        pass
+        return density_x
 
 class KernelDensity(Density):
     def __init__(self,kernel=None,sigma=0.1):
